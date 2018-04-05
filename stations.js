@@ -6,6 +6,7 @@ const querystring = require("querystring");
 
 // Global container for Stations
 var GLOBAL_STATIONS = new Object()
+const CAT_NOT_IMPLEMENTED = 232;
 
 function validateParameters(queryObject) {
 
@@ -165,11 +166,25 @@ function SeedlinkChecker() {
 
       }
 
+      if(buffer.toString() === "CAT command not implemented\r\n") {
+
+        GLOBAL_STATIONS[SERVER.HOST] = {
+          "stations": null,
+          "error": CAT_NOT_IMPLEMENTED,
+          "identifier": identifier,
+          "version": version
+        }
+
+        socket.destroy();
+
+      }
+
       if(buffer.lastIndexOf("\nEND") === buffer.length - 4) {
 
         // Update the global cache
         GLOBAL_STATIONS[SERVER.HOST] = {
           "stations": parseBuffer(buffer), 
+          "error": null,
           "identifier": identifier,
           "version": version
         }
