@@ -1,21 +1,8 @@
 {
-  "PORT": 3001,
   "HOST": "127.0.0.1",
-  "SERVERS": [{
-    "HOST": "rtserve.iris.washington.edu",
-    "PORT": 18000 
-  }, {
-    "HOST": "eida.orfeus-eu.org",
-    "PORT": 18000
-  }, {
-    "HOST": "geofon.gfz-potsdam.de",
-    "PORT": 18000
-  }, {
-    "HOST": "eida.bgr.de",
-    "PORT": 18000
-  }],
-  "REFRESH_INTERVAL": 3600000,
   "SOCKET": {
-    "TIMEOUT": 10000
-  }
+    "TIMEOUT": 5000
+  },
+  "PORT": 3001,
+  "REFRESH_INTERVAL": 3600000
 }
