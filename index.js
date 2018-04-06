@@ -152,10 +152,12 @@ function SeedlinkChecker(server, callback) {
 
   // Metadata for the request
   var requestData = {
+    "host": url,
     "stations": new Array(),
     "error": null,
     "version": null,
     "identifier": null,
+    "connected": false,
     "requested": Date.now()
   }
 
@@ -183,6 +185,8 @@ function SeedlinkChecker(server, callback) {
 
   // Data is written over the socket
   socket.on("data", function(data) {
+
+    requestData.connected = true;
 
     // Extend the buffer with new data
     buffer = Buffer.concat([buffer, data]);
