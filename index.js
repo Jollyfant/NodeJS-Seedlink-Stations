@@ -1,3 +1,14 @@
+/* NodeJS-Seedlink-Stations
+ *
+ * NodeJS application for reading the available 
+ * stations from arbitrary Seedlink servers.
+ *
+ * Copyright (c) Mathijs Koymans, 2018
+ * Licensed under MIT.
+ *
+ *
+ */
+
 const Network = require("net");
 const Http = require("http");
 const CONFIG = require("./config");
@@ -9,6 +20,10 @@ var GLOBAL_STATIONS = new Object();
 const CAT_NOT_IMPLEMENTED = 232;
 
 function validateAllowed(key) {
+
+  /* function validateAllowed
+   * Validates whether a key is allowed;
+   */
 
   const ALLOWED_PARAMETERS = [
     "host"
@@ -22,7 +37,7 @@ function validateAllowed(key) {
 
 function validateParameters(queryObject) {
 
-  if(queryObject.port < 0 || queryObject.port >= 65536) {
+  if(queryObject.port < 0 || queryObject.port >= (1 << 16)) {
     throw("A submitted port is invalid");
   }
 
@@ -30,15 +45,28 @@ function validateParameters(queryObject) {
 
 module.exports = function(callback) {
 
+  function HTTPError(response, statusCode, message) {
+
+    /* function HTTPError
+     * Returns an HTTP error to client
+     */
+
+    response.writeHead(statusCode, {"Content-Type": "text/plain"});
+    response.end(message)
+  
+  }
+
   // Create a HTTP server
   const Server = Http.createServer(function(request, response) {
 
+    // Sets CORS headers
     response.setHeader("Access-Control-Allow-Origin", "*");
     response.setHeader("Access-Control-Allow-Methods", "GET");
 
     var uri = url.parse(request.url);
     var queryObject = querystring.parse(uri.query);
 
+    // Check if a query is submitted
     if(uri.query === null || uri.query === "") {
       return HTTPError(response, 400, "Empty query string submitted");
     }
@@ -52,15 +80,17 @@ module.exports = function(callback) {
       return HTTPError(response, 405, "Method not supported")
     }
 
+    // Get the comma delimited host:port values
     servers = queryObject.host.split(",").map(function(x) {
       var [host, port] = x.split(":"); 
       return {
         "url": x,
         "host": host,
-        "port": port
+        "port": port || 18000
       }
     });
 
+    // Check user input
     try {
       Object.keys(queryObject).forEach(validateAllowed);
       servers.forEach(validateParameters);
@@ -68,6 +98,7 @@ module.exports = function(callback) {
       return HTTPError(response, 400, exception);
     }
 
+    // Make queries to the servers (or read from cache)
     updateAll(servers, function(data) {
       response.end(JSON.stringify(data));
     });
@@ -93,33 +124,18 @@ if(require.main === module) {
 
 }
 
-function HTTPError(response, status, message) {
-
-  response.writeHead(status, {"Content-Type": "text/plain"});
-  response.end(message)
-
-}
-
-function finish(socket, host, data, callback) {
-
-  GLOBAL_STATIONS[host] = data;
-  socket.destroy();
-  callback(data);
-  
-}
-
-function updateAll(list, callback) {
+function updateAll(servers, callback) {
 
   var results = new Array();
 
   // Asynchronously but concurrently get the data
-  (update = function() {
-    SeedlinkChecker(list.pop(), function(result) {
+  (next = function() {
+    SeedlinkChecker(servers.pop(), function(result) {
       results.push(result);
-      if(!list.length) {
+      if(!servers.length) {
         return callback(results);
       }
-      update();
+      next();
     });
   })();
 
@@ -127,11 +143,23 @@ function updateAll(list, callback) {
 
 function isCached(host) {
 
+  /* function isCached
+   * Returns boolean whether a seedlink server is cached
+   */
+
   return GLOBAL_STATIONS.hasOwnProperty(host) && GLOBAL_STATIONS[host].requested > (Date.now() - CONFIG.REFRESH_INTERVAL);
 
 }
 
 function SeedlinkChecker(server, callback) {
+
+  function finish(socket, host, data, callback) {
+  
+    GLOBAL_STATIONS[host] = data;
+    socket.destroy();
+    callback(data);
+  
+  }
 
   /* Function SeedlinkChecker
    * Checks if Seedlink is present

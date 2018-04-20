@@ -1,8 +1,8 @@
 {
-  "HOST": "127.0.0.1",
+  "HOST": "127.0.0.1", 
   "SOCKET": {
     "TIMEOUT": 5000
-  },
-  "PORT": 3001,
+  }, 
+  "PORT": 3001, 
   "REFRESH_INTERVAL": 3600000
 }
