@@ -1,0 +1,20 @@
+{
+  "name": "nodejs-seedlink-stations",
+  "version": "1.0.0",
+  "description": "NodeJS connector for pulling Seedlink station information",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jollyfant/NodeJS-Seedlink-Stations.git"
+  },
+  "author": "Mathijs Koymans",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Jollyfant/NodeJS-Seedlink-Stations/issues"
+  },
+  "homepage": "https://github.com/Jollyfant/NodeJS-Seedlink-Stations#readme"
+}
