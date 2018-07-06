@@ -16,7 +16,7 @@ Modify config.json to suit your needs.
 ## Docker
 
     docker build -t seedlink-stations:1.0 .
-    docker run -p 8086:8086 [--rm] [-d] [-e "SERVICE_PORT=8087"] [-e "SERVICE_HOST=0.0.0.0"] seedlink-stations:1.0
+    docker run -p 8086:8086 [--rm] [-d] [-e "SERVICE_PORT=8086"] [-e "SERVICE_HOST=0.0.0.0"] seedlink-stations:1.0
 
 Two envrionment variables can passed to Docker run to modify settings at runtime. Otherwise information is read from the built configuration file.
 

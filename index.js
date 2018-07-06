@@ -357,7 +357,7 @@ SeedlinkStationProxy.prototype.checkSeedlink = function(server, callback) {
     finish(requestData);
   });
 
-  // Propogate timeout to error
+  // Propagate timeout to error
   socket.on("timeout", function() {
     socket.emit("error");
   });
