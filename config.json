@@ -1,8 +1,11 @@
 {
+  "__DEBUG__": true,
+  "__CORS__": true,
+  "__NAME__": "SeedlinkStationProxy",
   "HOST": "0.0.0.0", 
   "SOCKET": {
-    "TIMEOUT": 5000
+    "TIMEOUT": 2000
   }, 
   "PORT": 8086, 
-  "REFRESH_INTERVAL": 3600000
+  "REFRESH_INTERVAL_MS": 3600000
 }
