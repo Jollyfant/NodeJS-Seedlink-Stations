@@ -10,6 +10,8 @@
  *
  */
 
+"use strict";
+
 // Native modules
 const network = require("net");
 const http = require("http");

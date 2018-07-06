@@ -19,8 +19,8 @@ WORKDIR /usr/src/app
 COPY . .
 
 # Set default environment variables
-ENV SERVICE_HOST=0.0.0.0
-ENV SERVICE_PORT=8086
+ENV SERVICE_HOST="" \
+    SERVICE_PORT=""
 
 EXPOSE 8086
 
