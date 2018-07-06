@@ -1,5 +1,5 @@
 # nodejs-seedlink-stations-proxy
-A proxy written for NodeJS that cached latencies available from a Seedlink server at an interval. The cached information is made available through an HTTP API.
+A proxy written for NodeJS that caches Seedlink information and available stations from Seedlink servers. The cached information is made available through an HTTP API.
 
 ## Installation
 
