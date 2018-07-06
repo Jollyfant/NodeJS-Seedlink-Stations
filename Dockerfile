@@ -4,7 +4,7 @@
 # $ docker build -t seedlink-stations:1.0 .
 #
 # And run the container (may omit the -e flags):
-# $ docker run --rm -p 8086:8086 -e "SERVICE_PORT=8087" -e "SERVICE_HOST=0.0.0.0" seedlink-stations:1.0
+# $ docker run --rm -p 8086:8086 -e "SERVICE_PORT=8086" -e "SERVICE_HOST=0.0.0.0" seedlink-stations:1.0
 
 FROM node:8
 

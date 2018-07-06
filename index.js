@@ -10,6 +10,7 @@
  *
  */
 
+// Native modules
 const network = require("net");
 const http = require("http");
 const url = require("url");
@@ -356,10 +357,9 @@ SeedlinkStationProxy.prototype.checkSeedlink = function(server, callback) {
     finish(requestData);
   });
 
-  // Timeout occured connecting to Seedlink
+  // Propogate timeout to error
   socket.on("timeout", function() {
-    requestData.error = "ECONNREFUSED";
-    finish(requestData);
+    socket.emit("error");
   });
 
   // Set Timout in milliseconds
