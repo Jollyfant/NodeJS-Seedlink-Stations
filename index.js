@@ -78,7 +78,7 @@ var SeedlinkStationProxy = function(configuration, callback) {
     }
 
     // Get the comma delimited of requested servers 
-    servers = queryObject.host.split(",").map(this.parseHost);
+    var servers = queryObject.host.split(",").map(this.parseHost);
 
     if(servers.length === 0) {
       return HTTPError(response, 204);
@@ -207,6 +207,7 @@ SeedlinkStationProxy.prototype.readSeedlinkStations = function(servers, callback
 
   // Collect the results for all servers
   var results = new Array();
+  var next;
 
   // Asynchronously but concurrently get the data
   (next = function() {
